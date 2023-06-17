@@ -1,27 +1,33 @@
+#include <bits/stdc++.h> 
 
-#include<bits/stdc++.h>
-
-void helper(int idx,int target, vector<int>&arr, vector<int>temp,vector<vector<int>>&ans, int n, int k){
-
-    if(idx== n and k==target){
-        ans.push_back(temp);
+void helper(int idx,vector<int>temp, set<vector<int>>&st, vector<int>&arr,int n){
+    if(idx==n){
+        sort(temp.begin(),temp.end());
+        st.insert(temp);
         return;
     }
-    if(idx==n) return;
 
     temp.push_back(arr[idx]);
-    helper(idx+1,target+arr[idx],arr,temp,ans,n,k);
+    helper(idx+1,temp,st,arr,n);
     temp.pop_back();
-    helper(idx+1,target,arr,temp,ans,n,k);
+    helper(idx+1,temp,st,arr,n);
 
 }
 
-vector<vector<int>> findSubsetsThatSumToK(vector<int> arr, int n, int k)
+vector<vector<int>> uniqueSubsets(int n, vector<int> &arr)
 {
     // Write your code here.
     vector<vector<int>>ans;
+    set<vector<int>>st;
     vector<int>temp;
-    helper(0,0,arr,temp,ans,n,k);
+    helper(0,temp, st,arr,n);
+    
+    for(auto x:st){
+        ans.push_back(x);
+    }
+    
+
 
     return ans;
+
 }
